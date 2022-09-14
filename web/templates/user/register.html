@@ -150,6 +150,7 @@
             </div>
         </form>
         <br>
+        <p><a href="{{ url_for('user.user_login') }}">Sign in Now</a></p>
         <div>
             {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
