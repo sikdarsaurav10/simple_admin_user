@@ -10,6 +10,8 @@ import string
 import random
 import json
 
+
+# login post
 @admin.route('/login', methods=['POST'])
 def admin_login_submit():
     
@@ -37,6 +39,7 @@ def admin_login_submit():
     return redirect(url_for('admin.admin_login')), 400
 
 
+# private api for admin creation
 @admin.route('/create/api', methods=['POST'])
 @admin_login_required
 def admin_create_submit_api():
@@ -70,6 +73,7 @@ def admin_create_submit_api():
         return jsonify({'status': 0, 'message': 'Error'}), 400
 
 
+# create new admin post
 @admin.route('/create', methods=['POST'])
 @admin_login_required
 def admin_create_submit():
@@ -113,6 +117,8 @@ def admin_create_submit():
         flash('Error', 'danger')
         return redirect(url_for('admin.admin_create_view')), 301
 
+
+# update admin put
 @admin.route('/update/post', methods=['POST'])
 @admin_login_required
 def admin_update_submit():
@@ -141,6 +147,7 @@ def admin_update_submit():
         return redirect(url_for('admin.admin_create_view')), 301
 
 
+# remove admin
 @admin.route('/remove', methods=['POST'])
 @admin_login_required
 def admin_remove_submit():
@@ -167,6 +174,7 @@ def admin_remove_submit():
         return redirect(url_for('admin.admin_create_view')), 301
 
 
+# create new user post
 @admin.route('/create/user/post', methods=['POST'])
 @admin_login_required
 def admin_create_user_submit():
@@ -213,6 +221,7 @@ def admin_create_user_submit():
         return redirect(url_for('admin.admin_create_user_view')), 301
 
 
+# update user put
 @admin.route('/update/user/post', methods=['POST'])
 @admin_login_required
 def admin_update_user_submit():
@@ -249,6 +258,7 @@ def admin_update_user_submit():
         return redirect(url_for('admin.admin_create_user_view')), 301
 
 
+# remove user
 @admin.route('/remove/user', methods=['POST'])
 @admin_login_required
 def admin_remove_user_submit():
@@ -275,6 +285,7 @@ def admin_remove_user_submit():
         return redirect(url_for('admin.admin_create_user_view')), 301
 
 
+# get all bookings of a single user
 @admin.route('/get/bookings/user', methods=['POST'])
 @admin_login_required
 def admin_user_data():
@@ -292,7 +303,7 @@ def admin_user_data():
         return redirect(url_for('admin.admin_user_report_view')), 301
 
     bookings = User_bookings.query.filter_by(booking=user).all()
-    # print(bookings)
+    # not serializable
     result = []
     for i in bookings:
         output = {}
@@ -309,6 +320,7 @@ def admin_user_data():
     return jsonify({"status": 1, "body": result}), 200
 
 
+# get user data
 @admin.route('/get/user', methods=['POST'])
 @admin_login_required
 def admin_user_data_single():

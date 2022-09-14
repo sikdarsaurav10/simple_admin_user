@@ -11,6 +11,8 @@ import random
 from datetime import datetime
 from datetime import date
 
+
+# user login post
 @user.route('/login', methods=['POST'])
 def user_login_submit():
     
@@ -38,6 +40,7 @@ def user_login_submit():
     return redirect(url_for('user.user_login')), 400
 
 
+# user register post
 @user.route('/new/user/register', methods=['POST'])
 def user_register_user_submit():
     
@@ -83,6 +86,7 @@ def user_register_user_submit():
         return redirect(url_for('user.user_register')), 301
 
 
+# user form submission post
 @user.route('/user/submit/booking', methods=['POST'])
 @user_login_required
 def user_booking_submit():

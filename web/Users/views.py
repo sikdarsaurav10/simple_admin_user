@@ -5,6 +5,13 @@ from functools import wraps
 
 user = Blueprint('user', __name__)
 
+"""
+This is the Module for User services. This module serves the views and crud operation of user for the application.
+A custom decorator has been used to keep track of session.
+A user cam create new bookings and can also see all of their bookings at a single place
+
+"""
+
 def user_login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -14,6 +21,7 @@ def user_login_required(f):
     return decorated_function
 
 
+# login page
 @user.route('/login', methods=['GET'])
 def user_login():
     res = get_session('user')
@@ -22,6 +30,8 @@ def user_login():
     title = 'User Login'
     return render_template('user/login.html', title=title)
 
+
+# registration page
 @user.route('/registration', methods=['GET'])
 def user_register():
     res = get_session('user')
@@ -31,6 +41,7 @@ def user_register():
     return render_template('user/register.html', title=title)
 
 
+# index page for user
 @user.route('/', methods=['GET'])
 @user_login_required
 def user_index():
@@ -40,6 +51,7 @@ def user_index():
     return render_template('user/index.html', title=title, name=user.name)
 
 
+# get all the bookings of the user
 @user.route('/user/bookings', methods=['GET'])
 @user_login_required
 def user_bookings_view():
@@ -51,6 +63,7 @@ def user_bookings_view():
     return render_template('user/all_bookings.html', title=title, bookings=bookings)
 
 
+# after form submission page
 @user.route('/reponse/page', methods=['GET'])
 @user_login_required
 def user_response_page():
@@ -60,6 +73,7 @@ def user_response_page():
     return render_template('user/response.html', title=title)
 
 
+# user logout
 @user.route('/logout', methods=['GET'])
 @user_login_required
 def logout():

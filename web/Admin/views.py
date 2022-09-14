@@ -5,6 +5,13 @@ from functools import wraps
 
 admin = Blueprint('admin', __name__)
 
+"""
+This is the Module for admin services. This module serves the views and crud operation of the admin for the application.
+A custom decorator has been used to keep track of session.
+A admin cam create other users (Admin/Retail), edit them delete them and can also view all the bookings and also user reports for the booking.
+
+"""
+
 def admin_login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -13,6 +20,7 @@ def admin_login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# login page
 @admin.route('/login', methods=['GET'])
 def admin_login():
     res = get_session('admin')
@@ -22,6 +30,7 @@ def admin_login():
     return render_template('admin/login.html', title=title)
 
 
+# index page
 @admin.route('/', methods=['GET'])
 @admin_login_required
 def admin_index():
@@ -30,6 +39,7 @@ def admin_index():
     return render_template('admin/index.html', title=title)
 
 
+# create new admin page
 @admin.route('/create/new', methods=['GET'])
 @admin_login_required
 def admin_create_view():
@@ -39,6 +49,7 @@ def admin_create_view():
     return render_template('admin/create_admin.html', title=title, admins=admin)
 
 
+# create new user page
 @admin.route('/create/user', methods=['GET'])
 @admin_login_required
 def admin_create_user_view():
@@ -48,6 +59,7 @@ def admin_create_user_view():
     return render_template('admin/create_user.html', title=title, users=users)
 
 
+# user report page
 @admin.route('/user/report', methods=['GET'])
 @admin_login_required
 def admin_user_report_view():
@@ -60,6 +72,8 @@ def admin_user_report_view():
         result[i.id] = quer
     return render_template('admin/user_report.html', title=title, users=users, result=result)
 
+
+# get all the bookings page
 @admin.route('/bookings/all', methods=['GET'])
 @admin_login_required
 def admin_all_bookings_view():
@@ -69,6 +83,7 @@ def admin_all_bookings_view():
     return render_template('admin/all_user_bookings.html', title=title, bookings=bookings)
 
 
+#logout admin
 @admin.route('/logout', methods=['GET'])
 def admin_logout():
     res = unset_session('admin')
